@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
 	var geocodedMessage    = '<em style="color:green">Location geocoded.</em>';
 	var geocodedNotMessage = '<em style="color:red">Location is not geocoded.</em>';
 	var geocoderActions    = '<div id="jmcsg-geocoder-action-wrapper">';
-	    geocoderActions   += '<input type="submit" id="jmcsg-geocode" class="button button-small"  style="width:110px;" value="Geocode Address" />';
+	    geocoderActions   += '<input type="submit" id="jmcsg-geocode" class="button button-small" style="width:110px;" value="Geocode Address" />';
 	    geocoderActions   += '<span id="jmcsg-geocode-message" style="width:200px;margin-left:10px;"></span></div>';
 	
     $(geocoderActions).insertAfter(addressInput);
@@ -77,14 +77,19 @@ jQuery(document).ready(function($) {
 			
 			if ( address[x].types == 'street_number' ) {
 				street_number = address[x].long_name; 
+				$('#jmcsg_street_number').val(street_number);
 			}
 			
 			if ( address[x].types == 'route' ) {
-				street = address[x].long_name;  
+				street = address[x].long_name;
+				$('#jmcsg_street').val(street);
+				/*
+				$('#jmcsg_street_name').val(street);
 				if ( street_number != false ) {
 					street = street_number + ' ' + street;
 				} 
 				$('#jmcsg_street').val(street);
+				*/
 			}
 	
 			if ( address[x].types == 'administrative_area_level_1,political' ) {

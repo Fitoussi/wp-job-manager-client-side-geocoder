@@ -55,14 +55,17 @@ jQuery(document).ready(function($) {
 			
 			if ( address[x].types == 'street_number' ) {
 				street_number = address[x].long_name; 
+				$('#jmcsg_street_number').val(street_number);
 			}
 			
 			if ( address[x].types == 'route' ) {
 				street = address[x].long_name;  
+				$('#jmcsg_street').val(street);
+				/*
 				if ( street_number != false ) {
 					street = street_number + ' ' + street;
 				} 
-				$('#jmcsg_street').val(street);
+				$('#jmcsg_street').val(street);*/
 			}
 	
 			if ( address[x].types == 'administrative_area_level_1,political' ) {
