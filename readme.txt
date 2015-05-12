@@ -2,9 +2,11 @@
 Contributors: ninjew
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WTF4HGEYNFF8W
 Tags: wp job manager, geocode, Google API, OVER_QUERY_LIMIT
-Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 1.0
+Requires at least: 4.1
+Tested up to: 4.2.2
+Stable tag: 1.0.1
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Use client-side geocoding to overcome the OVER_QUERY_LIMIT ( failed to geocode a location ) issue when updating job's location
 
@@ -41,6 +43,10 @@ No additional set-up is required. Just activate and enjoy.
 
 
 == Changelog ==
+
+= 1.0.1 =
+* Add street name and street number fields
+* sanitize location input fields when updating location
 
 = 1.0.0 =
 * Initial release
