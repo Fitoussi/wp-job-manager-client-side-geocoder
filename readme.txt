@@ -1,10 +1,10 @@
 === WP Job Manager Client-Side Geocoder ===
 Contributors: ninjew
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WTF4HGEYNFF8W
-Tags: wp job manager, geocode, Google API, OVER_QUERY_LIMIT
+Tags: wp job manager, geocode, Google Maps API, OVER_QUERY_LIMIT
 Requires at least: 4.1
-Tested up to: 4.2.2
-Stable tag: 1.0.1
+Tested up to: 4.8.1
+Stable tag: 1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,6 +43,14 @@ No additional set-up is required. Just activate and enjoy.
 
 
 == Changelog ==
+
+= 1.1 =
+
+* New: Region code input box added to WP Job Manager Settings page, allows to set the default country that will be used when geocoding an address.
+* Fix: Region code does not pass to the geocoder which results in wrong geocoding in some cases.
+* Fix: Disable WP Job Manager geocoder when address already geocoded by the client side plugin, to prevent multiple geocoding when adding/updating job/resume.
+* Combine multiple JS files into a single file and minify it.
+* Code cleanup.
 
 = 1.0.1 =
 * Add street name and street number fields
