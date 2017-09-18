@@ -3,7 +3,7 @@
 Plugin Name: WP Job Manager Client-Side Geocoder
 Plugin URI: http://www.geomywp.com
 Description: Provides Client-Side geocoder to WP Job Manager plugin to overcome the OVER_QUERY_LIMIT, and other geocoding issues.
-Version: 1.1
+Version: 1.1.1-beta1
 Author: Eyal Fitoussi
 Author URI: http://www.geomywp.com
 Requires at least: 4.1
