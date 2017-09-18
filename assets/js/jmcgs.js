@@ -213,13 +213,23 @@ var JMCGS = {
 	          	
 	          	jQuery( '#jmcsg_state_short' ).val( address[x].short_name );
 	          	jQuery( '#jmcsg_state_long' ).val( address[x].long_name );
-	         } 
-	         
-	         if ( address[x].types == 'locality,political' ) {
+	        } 
+	        
+	        // look for city
+	        if ( address[x].types == 'locality,political' ) {
 	          	jQuery( '#jmcsg_city' ).val( address[x].long_name );
-	         } 
+	        } 
+
+	        // if city was not found above look in postal_town
+	        if ( address[x].types == 'postal_town' && ! jQuery( '#jmcsg_city' ).val().length ) {
+	          	jQuery( '#jmcsg_city' ).val( address[x].long_name );
+	        } 
+
+	        if ( address[x].types == 'administrative_area_level_2,political' && ! jQuery( '#jmcsg_city' ).val().length ) {          	
+	          	jQuery( '#jmcsg_city' ).val( address[x].long_name );
+	        } 
 	         
-	         if ( address[x].types == 'postal_code' ) {
+	        if ( address[x].types == 'postal_code' ) {
 	          	jQuery( '#jmcsg_postcode' ).val( address[x].long_name );
 	        } 
 	        
@@ -227,7 +237,7 @@ var JMCGS = {
 
 	          	jQuery( '#jmcsg_country_short' ).val( address[x].short_name );
 	          	jQuery( '#jmcsg_country_long' ).val( address[x].long_name );
-	         } 
+	        } 
 		}	
 
 		if ( ! JMCGS.is_admin ) {
