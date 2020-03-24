@@ -1,18 +1,20 @@
 <?php
-/*
-Plugin Name: WP Job Manager Client-Side Geocoder
-Plugin URI: http://www.geomywp.com
-Description: Provides Client-Side geocoder to WP Job Manager plugin to overcome the OVER_QUERY_LIMIT, and other geocoding issues.
-Version: 1.1
-Author: Eyal Fitoussi
-Author URI: http://www.geomywp.com
-Requires at least: 4.1
-Tested up to: 4.8.1
-License: GNU General Public License v3.0
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
-*/
+/**
+ * Plugin Name: WP Job Manager Client-Side Geocoder
+ * Plugin URI: http://www.geomywp.com
+ * Description: Provides Client-Side geocoder for WP Job Manager plugin to overcome issues with the server side geocoding.
+ * Version: 1.2
+ * Author: Eyal Fitoussi
+ * Author URI: http://www.geomywp.com
+ * Requires at least: 4.5
+ * Tested up to: 5.3.2
+ * License: GNU General Public License v3.0
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * @package wp-job-manager-client-side-geocoder
+ */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -82,14 +84,14 @@ class JMCSG {
 	}
 
 	/**
-	 * register scripts function.
+	 * Register scripts function.
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function register_scripts() {
 
-		// register google maps api
+		// register google maps api.
 		if ( ! wp_script_is( 'google-maps', 'registered' ) && ! class_exists( 'GEO_my_WP' ) && ! class_exists( 'GJM_Init' ) ) {
 			wp_register_script( 'google-maps', esc_url( $this->get_google_maps_api_url() ), array( 'jquery' ), JMCSG_VERSION, true );
 		}
@@ -105,7 +107,8 @@ class JMCSG {
 	/**
 	 * Default region settings
 	 *
-	 * @param  [type] $settings [description]
+	 * @param  [type] $settings [description].
+	 *
 	 * @return [type]           [description]
 	 */
 	public function admin_settings( $settings ) {
@@ -124,12 +127,13 @@ class JMCSG {
 	/**
 	 * Append region code to WPJM geocoder
 	 *
-	 * @param  [type] $region [description]
+	 * @param  [type] $region [description].
+	 *
 	 * @return [type]         [description]
 	 */
 	public function append_region_code_to_geocoder( $region ) {
 
-		if ( $region == '' ) {
+		if ( empty( $region ) ) {
 
 			if ( class_exists( 'GJM_Init' ) ) {
 
@@ -152,7 +156,7 @@ class JMCSG {
 	 */
 	public function get_api_param() {
 
-		// get options from Jobs Geolocation extension if exists
+		// get options from Jobs Geolocation extension if exists.
 		if ( class_exists( 'GJM_Init' ) ) {
 
 			$gjm_options = get_option( 'gjm_options' );
@@ -183,12 +187,13 @@ class JMCSG {
 	 */
 	public function get_google_maps_api_url() {
 
-		$api_url = is_ssl() ? 'https' : 'http' . '://maps.googleapis.com/maps/api/js';
+		$api_url = is_ssl() ? 'https' : 'http';
+		$api_url = $api_url . '://maps.googleapis.com/maps/api/js';
 
 		// Add an API key if available.
 		$api_key = get_option( 'job_manager_google_maps_api_key' );
 
-		if ( '' !== $api_key ) {
+		if ( ! empty( $api_key ) ) {
 			$api_url = add_query_arg( 'key', urlencode( $api_key ), $api_url );
 		}
 
@@ -200,33 +205,35 @@ class JMCSG {
 	}
 
 	/**
-	 * Generate hidden address fields to job and resume forms
+	 * Generate hidden address fields to job and resume forms.
 	 *
-	 * @param unknown_type $post_id
+	 * @param  [type] $post_id [description].
+	 *
+	 * @return [type]          [description]
 	 */
 	public function hidden_address_fields( $post_id ) {
 
 		echo '<div id="jmcsg-geocoder-fields-wrapper" style="display:none !important;clear:both;width:100%;">';
 
 		foreach ( $this->address_fields as $af ) {
+
+			$af = esc_attr( $af );
+
 			echo '<p>';
-			// echo '<label for="jmcsg_'.$af.'">'.$af.'</label>';
-			echo '<input type="text" name="jmcsg_' . $af . '" id="jmcsg_' . $af . '" class="jmcsg_address_fields" style="width:100%" placeholder="' . $af . '" />';
+			echo '<input type="text" name="jmcsg_' . $af . '" id="jmcsg_' . $af . '" class="jmcsg_address_fields" style="width:100%" placeholder="' . $af . '" />'; // WPCS: XSS ok.
 			echo '</p>';
 		}
 
-		// get saved data
+		// get saved data.
 		$org_location = get_post_meta( $post_id, '_job_location', true );
 		$geocoded     = get_post_meta( $post_id, 'geolocated', true ) == 1 ? 'true' : 'false';
 
 		echo '<p>';
-		// echo '<label for="jmcsg_original_location">Location updated</label>';
 		echo '<input type="text" name="jmcsg_location_updated" id="jmcsg_location_update" style="width:100%" class="jmcsg_address_fields" value="" placeholder="Updated" />';
 		echo '</p>';
 
 		echo '<p>';
-		// echo '<label for="jmcsg-geocoded">Geocoded</label>';
-		echo '<input type="text" name="jmcsg_geocoded" id="jmcsg-geocoded" class="jmcsg_address_fields" value="' . $geocoded . '" style="width:100%" placeholder="geocoded"/>';
+		echo '<input type="text" name="jmcsg_geocoded" id="jmcsg-geocoded" class="jmcsg_address_fields" value="' . esc_attr( $geocoded ) . '" style="width:100%" placeholder="geocoded"/>';
 		echo '</p>';
 		echo '</div>';
 
@@ -238,9 +245,9 @@ class JMCSG {
 	}
 
 	/**
-	 * delete job's location custom fields
+	 * Delete job's location custom fields.
 	 *
-	 * @param unknown_type $job_id
+	 * @param  [type] $post_id [description].
 	 */
 	public function delete_location_fields( $post_id ) {
 
@@ -252,24 +259,28 @@ class JMCSG {
 	}
 
 	/**
-	 * update job and resume location in back-end
+	 * Update job and resume location in back-end.
 	 *
-	 * @param unknown_type $post_id
+	 * @param  [type] $post_id [description].
+	 *
+	 * @param  [type] $post    [description].
+	 *
+	 * @return [type]          [description]
 	 */
 	public function update_location_admin( $post_id, $post ) {
 
-		// delete location if address field empty or geocode failed
+		// delete location if address field empty or geocode failed.
 		if ( empty( $_POST['_job_location'] ) && empty( $_POST['_candidate_location'] ) ) {
 			return self::delete_location_fields( $post_id );
 		}
 
-		// if everything is OK update post location with new data
-		if ( $_POST['jmcsg_geocoded'] == 'true' && ! empty( $_POST['jmcsg_location_updated'] ) && ! empty( $_POST['jmcsg_lat'] ) && ! empty( $_POST['jmcsg_long'] ) ) {
+		// if everything is OK update post location with new data.
+		if ( 'true' === $_POST['jmcsg_geocoded'] && ! empty( $_POST['jmcsg_location_updated'] ) && ! empty( $_POST['jmcsg_lat'] ) && ! empty( $_POST['jmcsg_long'] ) ) {
 
-			// delete old location data
+			// delete old location data.
 			self::delete_location_fields( $post_id );
 
-			// update new data
+			// update new data.
 			update_post_meta( $post_id, 'geolocated', 1 );
 
 			add_filter( 'job_manager_geolocation_enabled', '__return_false' );
@@ -282,18 +293,22 @@ class JMCSG {
 	}
 
 	/**
-	 * update job and resume location in front-end
+	 * Update job and resume location in front-end.
 	 *
-	 * @param unknown_type $post_id
+	 * @param  [type] $post_id [description].
+	 *
+	 * @param  [type] $values  [description].
+	 *
+	 * @return [type]          [description]
 	 */
 	public function update_location_front_end( $post_id, $values ) {
 
-		// abort if no address entered
+		// Abort if no address entered.
 		if ( empty( $values['job']['job_location'] ) && empty( $values['resume_fields']['candidate_location'] ) ) {
 			return;
 		}
 
-		// abort if coords not exist
+		// Abort if coords not exist.
 		if ( empty( $_POST['jmcsg_lat'] ) || empty( $_POST['jmcsg_long'] ) ) {
 			return;
 		}
@@ -301,11 +316,12 @@ class JMCSG {
 		add_filter( 'job_manager_geolocation_enabled', '__return_false' );
 		add_filter( 'resume_manager_geolocation_enabled', '__return_false' );
 
-		// delete old data
+		// Delete old data.
 		self::delete_location_fields( $post_id );
 
-		// update new location data
+		// Update new location data.
 		update_post_meta( $post_id, 'geolocated', 1 );
+
 		foreach ( $this->address_fields as $af ) {
 			update_post_meta( $post_id, "geolocation_{$af}", sanitize_text_field( $_POST[ "jmcsg_{$af}" ] ) );
 		}
@@ -317,14 +333,16 @@ class JMCSG {
  */
 function jmcsg_init() {
 
-	// make sure that WP Job Manager is activated
+	// Make sure that WP Job Manager is activated.
 	if ( ! class_exists( 'WP_Job_Manager' ) ) {
+
+		/**
+		 * Deactivation admin notice.
+		 */
 		function jmcsg_deactivated_admin_notice() {
 			?>
 		<div class="error">
-			<p>
-				<?php _e( 'WP Job Manager Client-side geocoder requires <a href="http://wordpress.org/plugins/wp-job-manager/" target="_blank">WP Job Manager</a> plugin.', 'JMCSG' ); ?>
-			</p>
+			<p><?php _e( 'WP Job Manager Client-Side Geocoder requires <a href="http://wordpress.org/plugins/wp-job-manager/" target="_blank">WP Job Manager</a> plugin.', 'JMCSG' ); ?></p>
 		</div>
 			<?php
 		}
