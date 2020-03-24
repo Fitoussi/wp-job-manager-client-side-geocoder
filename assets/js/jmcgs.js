@@ -39,7 +39,7 @@ var JMCGS = {
         if ( JMCGS.is_admin ) {
         	
         	// get the input field element
-        	JMCGS.address_input_field = jQuery( '#_job_location' ).length ? jQuery( '#_job_location' ) : jQuery( '#_candidate_location' )
+        	JMCGS.address_input_field = jQuery( '#_job_location' ).length ? jQuery( '#_job_location' ) : jQuery( '#_candidate_location' );
         	
         	// generate admin's geocoder button
         	JMCGS.generate_admin_fields();
@@ -155,12 +155,12 @@ var JMCGS = {
 		      		jQuery( '#jmcsg-geocode' ).attr( 'disabled','disabled' );
 		      		jQuery( '#jmcsg-geocode-message' ).html( JMCGS.geocode_ok_message );
 		      		jQuery( '#jmcsg-geocoded' ).val( 'true' );	
-		      		jQuery( '#jmcsg_location_update' ).val( '1' )
+		      		jQuery( '#jmcsg_location_update' ).val( '1' );
 		      	}
         		
 	    	} else {   
 
-	    		if ( JMSGS.is_admin ) {
+	    		if ( JMCGS.is_admin ) {
 		    		
 		    		alert( JMCGS.geocoding_failed_message + ' ' + status );
 
@@ -192,7 +192,7 @@ var JMCGS = {
 	    jQuery( '#jmcsg_long' ).val( results[0].geometry.location.lng() );
 	    jQuery( '#jmcsg_formatted_address' ).val( results[0].formatted_address );
 	    
-	    // check for each of the address components 
+	    // check for each of the address components.
 		for ( x in address ) {
 			
 			if ( address[x].types == 'street_number' ) {
@@ -247,7 +247,7 @@ var JMCGS = {
 			}, 500);
 		}
 	}
-}
-jQuery( document ).ready( function(jQuery) {
+};
+jQuery( document ).ready( function( jQuery ) {
 	JMCGS.init();
 });
